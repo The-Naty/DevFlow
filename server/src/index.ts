@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
+import { protect } from "./middleware/authMiddleware";
 
 const app = express();
 
@@ -14,6 +15,10 @@ app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevFlow API running 🚀");
+});
+
+app.get("/api/protected", protect, (req, res) => {
+  res.json({ message: "You are authorized 🔐" });
 });
 
 app.listen(3001, () => {
