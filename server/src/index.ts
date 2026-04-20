@@ -3,6 +3,7 @@ import cors from "cors";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
 import { protect } from "./middleware/authMiddleware";
+import projectRoutes from "./routes/projectRoutes";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevFlow API running 🚀");
