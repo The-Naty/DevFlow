@@ -60,3 +60,39 @@ export const getTasks = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// ✅ Update Task
+export const updateTask = async (req: AuthRequest, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const { status, assignedTo } = req.body;
+
+    if (!req.userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const userId = req.userId;
+
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    // 🔐 Check project access
+    const project = await Project.findById(task.project);
+
+    if (!project || !project.members.includes(userId as any)) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    // ✅ Update fields if provided
+    if (status) task.status = status;
+    if (assignedTo) task.assignedTo = assignedTo;
+
+    await task.save();
+
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
