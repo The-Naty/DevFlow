@@ -6,6 +6,7 @@ import { protect } from "./middleware/authMiddleware";
 import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import timeRoutes from "./routes/timeRoutes";
+import analyticsRoutes from "./routes/analyticsRoutes";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/time", timeRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevFlow API running 🚀");
