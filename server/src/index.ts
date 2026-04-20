@@ -4,6 +4,7 @@ import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
 import { protect } from "./middleware/authMiddleware";
 import projectRoutes from "./routes/projectRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevFlow API running 🚀");
