@@ -8,7 +8,7 @@ export const createProject = async (req: AuthRequest, res: Response) => {
   try {
     const { name, description } = req.body;
     const userId = req.userId;
-    
+
     if (!userId) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -29,8 +29,14 @@ export const createProject = async (req: AuthRequest, res: Response) => {
 // ✅ Get All Projects for Logged-in User
 export const getProjects = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
     const projects = await Project.find({
-      members: req.userId,
+      members: userId,
     });
 
     res.json(projects);
